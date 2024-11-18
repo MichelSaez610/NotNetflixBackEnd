@@ -2,15 +2,29 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 const port = 3333;
+const server = http.createServer(app);
+const io = socketIo(server);
 
 app.use(express.json());
 app.use(cors());
 
 app.listen(port, () => {
     console.log(`Server is running in port: ${port}`);
+});
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('message', (msg) => {
+        io.emit('message', msg);
+    });
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
 });
 
 app.get('/video/getAllVideos', async(req,res) => {
