@@ -31,9 +31,13 @@ io.on('connection', (socket) => {
     socket.on('message', (msg) => {
         console.log('Received message from client:', msg);
         io.emit('message', msg); 
+
         client_choice = msg
-        genCode = randomCode()
-        console.log('client choice: ' + client_choice)
+        genCode = randomCode();
+        console.log('client choice: ' + client_choice);
+        console.log('Generated code: ' + genCode);
+
+        socket.emit('generatedCode', genCode);
     });
 
     socket.on('disconnect', () => {
@@ -77,7 +81,7 @@ function randomCode() {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     const charLength = characters.length
     while (counter < 4) {
-        string += characters.charAt(Math.floor(Math.random() * charactersLength));
+        string += characters.charAt(Math.floor(Math.random() * charLength));
         counter += 1;
     }
     return string
