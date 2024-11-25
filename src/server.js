@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
     });
 });
 
-app.get('/api/video/getAllVideos', async(req,res) => {
+app.get('/api/video/getAllVideos', async (req, res) => {
     try {
         const videoDir = path.join(__dirname, '../videos');
         const videosSource = fs.readdirSync(videoDir);
@@ -64,8 +64,10 @@ app.get('/api/video/getAllVideos', async(req,res) => {
         res.json(videoJson);
     } catch (error) {
         console.log('Error reading videos: ', error);
+        res.status(500).send('Error reading videos');
     }
-})
+});
+
 
 
 app.get('/video/getvideo', async(req, res) => {
