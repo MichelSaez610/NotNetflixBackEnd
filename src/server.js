@@ -22,12 +22,18 @@ const io = socketIo(app.listen(port, () => {
     }
 });
 
+var client_choice = ""
+var genCode = ""
+
 io.on('connection', (socket) => {
     console.log('A user connected');
 
     socket.on('message', (msg) => {
         console.log('Received message from client:', msg);
         io.emit('message', msg); 
+        client_choice = msg
+        genCode = randomCode()
+        console.log('client choice: ' + client_choice)
     });
 
     socket.on('disconnect', () => {
@@ -64,3 +70,15 @@ app.get('/video/getvideo', async(req, res) => {
     res.json("s'ha enviat el video, en verdah no")
 
 })
+
+function randomCode() {
+    let string = ''
+    let counter = 0
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    const charLength = characters.length
+    while (counter < 4) {
+        string += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+    }
+    return string
+}
