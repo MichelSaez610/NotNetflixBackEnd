@@ -7,27 +7,39 @@ const socketIo = require('socket.io');
 
 const app = express();
 const port = 3333;
-const server = http.createServer(app);
-const io = socketIo(server);
 
 app.use(express.json());
 app.use(cors());
 
-app.listen(port, () => {
-    console.log(`Server is running in port: ${port}`);
+const io = socketIo(app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
+}), {
+    cors: {
+        origin: 'http://localhost:4200', // Allowing connection from Angular client
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type'],
+        credentials: true
+    }
 });
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log('A user connected');
+
     socket.on('message', (msg) => {
-        io.emit('message', msg);
+        console.log('Received message from client:', msg);
+        io.emit('message', msg); 
     });
+
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        console.log('User disconnected');
+    });
+
+    socket.on('connect_error', (err) => {
+        console.log(`Connection error: ${err.message}`);
     });
 });
 
-app.get('/video/getAllVideos', async(req,res) => {
+app.get('/api/video/getAllVideos', async(req,res) => {
     try {
         const videoDir = path.join(__dirname, '../videos');
         const videosSource = fs.readdirSync(videoDir);
