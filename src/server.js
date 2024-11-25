@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-const http = require('http');
 const socketIo = require('socket.io');
 
 const app = express();
@@ -68,14 +67,6 @@ app.get('/api/video/getAllVideos', async (req, res) => {
     }
 });
 
-
-
-app.get('/video/getvideo', async(req, res) => {
-
-    let video = req.body.video
-    res.json("s'ha enviat el video, en verdah no")
-
-})
 
 function randomCode() {
     let string = ''
