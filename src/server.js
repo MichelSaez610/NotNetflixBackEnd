@@ -82,14 +82,6 @@ app.get('/api/video/getAllVideos', async (req, res) => {
 });
 
 
-
-app.get('/video/getvideo', async(req, res) => {
-
-    let video = req.body.video
-    res.json("s'ha enviat el video, en verdah no")
-
-})
-
 function randomCode() {
     let string = ''
     let counter = 0
