@@ -19,11 +19,11 @@ const io = socketIo(app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 }), {
     cors: {
-        origin: 'http://localhost:4200',
+        origin: '*',
         methods: ['GET', 'POST'],
         allowedHeaders: ['Content-Type'],
         credentials: true
-    }
+    },
 });
 
 let generatedCode = '';
